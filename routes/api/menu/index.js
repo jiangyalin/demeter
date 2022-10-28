@@ -3,11 +3,12 @@ const path = require('path')
 const readFileList = require('./../../../tool/read-file-list')
 const router = express.Router()
 const fs = require('fs')
-// const monitorFile = require('./monitor-file')
 
 // 获取完整文件树结构
-router.get('/all', (req, res) => {
+router.post('/new-file', (req, res) => {
   const filePath = path.join(__dirname, './../../../data/test')
+  console.log('req', req.body.type)
+
   const list = readFileList(filePath)
   const treeMap = {}
   let id = 1
@@ -51,24 +52,6 @@ router.get('/all', (req, res) => {
   }
   res.jsonp(data)
 })
-
-// 获取文件内容
-router.get('/info', (req, res) => {
-  const _path = req.query.path
-  const prefixPath = '../../../data/test/'
-
-  const fileData = fs.readFileSync(path.join(__dirname, prefixPath + _path), 'utf-8')
-  const data = {
-    code: 200,
-    data: {
-      fileData
-    },
-    message: 'ok'
-  }
-  res.jsonp(data)
-})
-
-// monitorFile()
 
 module.exports = router
 
